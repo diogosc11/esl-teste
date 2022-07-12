@@ -15,6 +15,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_07_12_190543) do
   enable_extension "plpgsql"
 
   create_table "reserves", force: :cascade do |t|
+    t.string "datetime"
     t.string "description"
     t.bigint "user_id", null: false
     t.datetime "created_at", null: false
