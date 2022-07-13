@@ -1,20 +1,26 @@
-<h2>Reserva de sala</h2>
+<div class="row">
+  <h2 class="col">Reserva de sala</h2>
+  <div class="d-flex col">
+    <div class="mt-2"><p><%= current_user.email %></div> 
+    <div><%= link_to('Sair', destroy_user_session_path, method: :delete, class: 'nav-link') %></p></div>
+  </div>
+</div>
 
-<table>
-  <tr>
+<table class="table">
+  <thead class="thead-dark">
     <th>Horário</th>
     <th>Segunda</th>
     <th>Terça</th>
     <th>Quarta</th>
     <th>Quinta</th>
     <th>Sexta</th>
-  </tr>
+  </thead>
 <% ["06:00","07:00","08:00","09:00","10:00","11:00","12:00","13:00","14:00","15:00","16:00","17:00","18:00","19:00","20:00","21:00","22:00","23:00"].each do |reserve| %>
   <tr>
     <td><%= reserve %></td>
     <td><%= @reserves.where(datetime: "#{@monday.strftime('%d/%m/%Y')} #{reserve}").empty? ? "Disponível" : "Tem reserva" %></td>
-    <td><%= @reserves.where(datetime: "#{@tuesday.strftime('%d/%m/%Y')} #{reserve}").empty? ? "Disponível" : "Tem reserva" %></td>
-    <td><%= @reserves.where(datetime: "#{@wednesday.strftime('%d/%m/%Y')} #{reserve}").empty? ? "Disponível" : "Tem reserva" %></td>
+    <td><% if @reserves.where(datetime: "#{@tuesday.strftime('%d/%m/%Y')} #{reserve}").empty? %> Disponível <% else %> <%= @reserves.where(datetime: "#{@tuesday.strftime('%d/%m/%Y')} #{reserve}").first.user.id %> <% end %></td>
+    <td><% if @reserves.where(datetime: "#{@wednesday.strftime('%d/%m/%Y')} #{reserve}").empty? %> Disponível <% else %> <%= @reserves.where(datetime: "#{@wednesday.strftime('%d/%m/%Y')} #{reserve}").first.user.email %> <% end %></td>
     <td><%= @reserves.where(datetime: "#{@thursday.strftime('%d/%m/%Y')} #{reserve}").empty? ? "Disponível" : "Tem reserva" %></td>
     <td><%= @reserves.where(datetime: "#{@friday.strftime('%d/%m/%Y')} #{reserve}").empty? ? "Disponível" : "Tem reserva" %></td>
   </tr>
