@@ -64,4 +64,9 @@ class ReservesController < ApplicationController
     reserve = Reserve.create(datetime: params[:date], description: params[:description], user_id: current_user.id)
     reserve.save
   end
+
+  def destroy
+    reserve = Reserve.find_by(datetime: params[:date])
+    reserve.destroy
+  end
 end

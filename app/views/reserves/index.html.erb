@@ -18,11 +18,26 @@
 <% ["06:00","07:00","08:00","09:00","10:00","11:00","12:00","13:00","14:00","15:00","16:00","17:00","18:00","19:00","20:00","21:00","22:00","23:00"].each do |reserve| %>
   <tr>
     <td><%= reserve %></td>
-    <td><% if @reserves.where(datetime: "#{@monday.strftime('%d/%m/%Y')} #{reserve}").empty? %> <%= link_to "Disponível", new_reserf_path(data: "#{@monday.strftime('%d/%m/%Y')} #{reserve}") %> <% else %> <%= @reserves.where(datetime: "#{@monday.strftime('%d/%m/%Y')} #{reserve}").first.user.email %> <% end %></td>
-    <td><% if @reserves.where(datetime: "#{@tuesday.strftime('%d/%m/%Y')} #{reserve}").empty? %> <%= link_to "Disponível", new_reserf_path(data: "#{@tuesday.strftime('%d/%m/%Y')} #{reserve}") %> <% else %> <%= @reserves.where(datetime: "#{@tuesday.strftime('%d/%m/%Y')} #{reserve}").first.user.email %> <% end %></td>
-    <td><% if @reserves.where(datetime: "#{@wednesday.strftime('%d/%m/%Y')} #{reserve}").empty? %> <%= link_to "Disponível", new_reserf_path(data: "#{@wednesday.strftime('%d/%m/%Y')} #{reserve}") %> <% else %> <%= @reserves.where(datetime: "#{@wednesday.strftime('%d/%m/%Y')} #{reserve}").first.user.email %> <% end %></td>
-    <td><%= @reserves.where(datetime: "#{@thursday.strftime('%d/%m/%Y')} #{reserve}").empty? ? "Disponível" : "Tem reserva" %></td>
-    <td><%= @reserves.where(datetime: "#{@friday.strftime('%d/%m/%Y')} #{reserve}").empty? ? "Disponível" : "Tem reserva" %></td>
+    <td><% if @reserves.where(datetime: "#{@monday.strftime('%d/%m/%Y')} #{reserve}").empty? %> <%= link_to "Disponível", new_reserf_path(data: "#{@monday.strftime('%d/%m/%Y')} #{reserve}") %> <% else %> <%= @reserves.where(datetime: "#{@monday.strftime('%d/%m/%Y')} #{reserve}").first.user.email %> <% end %> <% if !@reserves.where(datetime: "#{@monday.strftime('%d/%m/%Y')} #{reserve}").empty? && @reserves.where(datetime: "#{@monday.strftime('%d/%m/%Y')} #{reserve}").first.user.email == current_user.email %> <a id="<%= "#{@monday.strftime('%d/%m/%Y')} #{reserve}" %>" onclick="submit(this.id)"><i class="fa-solid fa-arrow-rotate-left"></i></a> <% end %></td>
+    <td><% if @reserves.where(datetime: "#{@tuesday.strftime('%d/%m/%Y')} #{reserve}").empty? %> <%= link_to "Disponível", new_reserf_path(data: "#{@tuesday.strftime('%d/%m/%Y')} #{reserve}") %> <% else %> <%= @reserves.where(datetime: "#{@tuesday.strftime('%d/%m/%Y')} #{reserve}").first.user.email %> <% end %> <% if !@reserves.where(datetime: "#{@tuesday.strftime('%d/%m/%Y')} #{reserve}").empty? && @reserves.where(datetime: "#{@tuesday.strftime('%d/%m/%Y')} #{reserve}").first.user.email == current_user.email %> <a id="<%= "#{@tuesday.strftime('%d/%m/%Y')} #{reserve}" %>" onclick="submit(this.id)"><i class="fa-solid fa-arrow-rotate-left"></i></a> <% end %></td>
+    <td><% if @reserves.where(datetime: "#{@wednesday.strftime('%d/%m/%Y')} #{reserve}").empty? %> <%= link_to "Disponível", new_reserf_path(data: "#{@wednesday.strftime('%d/%m/%Y')} #{reserve}") %> <% else %> <%= @reserves.where(datetime: "#{@wednesday.strftime('%d/%m/%Y')} #{reserve}").first.user.email %> <% end %> <% if !@reserves.where(datetime: "#{@wednesday.strftime('%d/%m/%Y')} #{reserve}").empty? && @reserves.where(datetime: "#{@wednesday.strftime('%d/%m/%Y')} #{reserve}").first.user.email == current_user.email %> <a id="<%= "#{@wednesday.strftime('%d/%m/%Y')} #{reserve}" %>" onclick="submit(this.id)"><i class="fa-solid fa-arrow-rotate-left"></i></a> <% end %></td>
+    <td><% if @reserves.where(datetime: "#{@thursday.strftime('%d/%m/%Y')} #{reserve}").empty? %> <%= link_to "Disponível", new_reserf_path(data: "#{@thursday.strftime('%d/%m/%Y')} #{reserve}") %> <% else %> <%= @reserves.where(datetime: "#{@thursday.strftime('%d/%m/%Y')} #{reserve}").first.user.email %> <% end %> <% if !@reserves.where(datetime: "#{@thursday.strftime('%d/%m/%Y')} #{reserve}").empty? && @reserves.where(datetime: "#{@thursday.strftime('%d/%m/%Y')} #{reserve}").first.user.email == current_user.email %> <a id="<%= "#{@thursday.strftime('%d/%m/%Y')} #{reserve}" %>" onclick="submit(this.id)"><i class="fa-solid fa-arrow-rotate-left"></i></a> <% end %></td>
+    <td><% if @reserves.where(datetime: "#{@friday.strftime('%d/%m/%Y')} #{reserve}").empty? %> <%= link_to "Disponível", new_reserf_path(data: "#{@friday.strftime('%d/%m/%Y')} #{reserve}") %> <% else %> <%= @reserves.where(datetime: "#{@friday.strftime('%d/%m/%Y')} #{reserve}").first.user.email %> <% end %> <% if !@reserves.where(datetime: "#{@friday.strftime('%d/%m/%Y')} #{reserve}").empty? && @reserves.where(datetime: "#{@friday.strftime('%d/%m/%Y')} #{reserve}").first.user.email == current_user.email %> <a id="<%= "#{@friday.strftime('%d/%m/%Y')} #{reserve}" %>" onclick="submit(this.id)"><i class="fa-solid fa-arrow-rotate-left"></i></a> <% end %></td>
   </tr>
 <% end %>
 </table>
+
+<script type="text/javascript">
+  function submit(date) {
+    let data = date;
+    let getUrl = window.location;
+    let baseUrl = getUrl.protocol + "//" + getUrl.host + "/" + getUrl.pathname.split('/')[1];
+    fetch(`${baseUrl}/destroy`, {
+    method: 'DELETE',
+    headers: {'Content-Type':'application/x-www-form-urlencoded'}, 
+    body: `date=${data}`
+    })
+    .then(response => response.json())
+    window.location.href = baseUrl;
+  }
+</script>
