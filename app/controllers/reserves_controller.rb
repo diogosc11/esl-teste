@@ -1,5 +1,6 @@
 class ReservesController < ApplicationController
   before_action :authenticate_user!
+  skip_before_action :verify_authenticity_token
 
   def index
     @day = DateTime.now
@@ -53,5 +54,14 @@ class ReservesController < ApplicationController
       @thursday = @day + 5
       @friday = @day + 6
     end
+  end
+
+  def new
+    @data = params[:data]
+  end
+
+  def create
+    reserve = Reserve.create(datetime: params[:date], description: params[:description], user_id: current_user.id)
+    reserve.save
   end
 end

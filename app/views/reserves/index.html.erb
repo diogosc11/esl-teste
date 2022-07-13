@@ -9,18 +9,18 @@
 <table class="table">
   <thead class="thead-dark">
     <th>Horário</th>
-    <th>Segunda</th>
-    <th>Terça</th>
-    <th>Quarta</th>
-    <th>Quinta</th>
-    <th>Sexta</th>
+    <th>Segunda (<%= @monday.strftime('%d/%m/%Y') %>)</th>
+    <th>Terça (<%= @tuesday.strftime('%d/%m/%Y') %>)</th>
+    <th>Quarta (<%= @wednesday.strftime('%d/%m/%Y') %>)</th>
+    <th>Quinta (<%= @thursday.strftime('%d/%m/%Y') %>)</th>
+    <th>Sexta (<%= @friday.strftime('%d/%m/%Y') %>)</th>
   </thead>
 <% ["06:00","07:00","08:00","09:00","10:00","11:00","12:00","13:00","14:00","15:00","16:00","17:00","18:00","19:00","20:00","21:00","22:00","23:00"].each do |reserve| %>
   <tr>
     <td><%= reserve %></td>
-    <td><%= @reserves.where(datetime: "#{@monday.strftime('%d/%m/%Y')} #{reserve}").empty? ? "Disponível" : "Tem reserva" %></td>
-    <td><% if @reserves.where(datetime: "#{@tuesday.strftime('%d/%m/%Y')} #{reserve}").empty? %> Disponível <% else %> <%= @reserves.where(datetime: "#{@tuesday.strftime('%d/%m/%Y')} #{reserve}").first.user.id %> <% end %></td>
-    <td><% if @reserves.where(datetime: "#{@wednesday.strftime('%d/%m/%Y')} #{reserve}").empty? %> Disponível <% else %> <%= @reserves.where(datetime: "#{@wednesday.strftime('%d/%m/%Y')} #{reserve}").first.user.email %> <% end %></td>
+    <td><% if @reserves.where(datetime: "#{@monday.strftime('%d/%m/%Y')} #{reserve}").empty? %> <%= link_to "Disponível", new_reserf_path(data: "#{@monday.strftime('%d/%m/%Y')} #{reserve}") %> <% else %> <%= @reserves.where(datetime: "#{@monday.strftime('%d/%m/%Y')} #{reserve}").first.user.email %> <% end %></td>
+    <td><% if @reserves.where(datetime: "#{@tuesday.strftime('%d/%m/%Y')} #{reserve}").empty? %> <%= link_to "Disponível", new_reserf_path(data: "#{@tuesday.strftime('%d/%m/%Y')} #{reserve}") %> <% else %> <%= @reserves.where(datetime: "#{@tuesday.strftime('%d/%m/%Y')} #{reserve}").first.user.email %> <% end %></td>
+    <td><% if @reserves.where(datetime: "#{@wednesday.strftime('%d/%m/%Y')} #{reserve}").empty? %> <%= link_to "Disponível", new_reserf_path(data: "#{@wednesday.strftime('%d/%m/%Y')} #{reserve}") %> <% else %> <%= @reserves.where(datetime: "#{@wednesday.strftime('%d/%m/%Y')} #{reserve}").first.user.email %> <% end %></td>
     <td><%= @reserves.where(datetime: "#{@thursday.strftime('%d/%m/%Y')} #{reserve}").empty? ? "Disponível" : "Tem reserva" %></td>
     <td><%= @reserves.where(datetime: "#{@friday.strftime('%d/%m/%Y')} #{reserve}").empty? ? "Disponível" : "Tem reserva" %></td>
   </tr>

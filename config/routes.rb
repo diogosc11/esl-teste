@@ -5,6 +5,8 @@ Rails.application.routes.draw do
     get '/' => 'devise/sessions#new'
   end
 
+  resources :reserves
+
   get '/reserves' => 'reserves#index', as: :user_root
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
