@@ -3,7 +3,7 @@ class ReservesController < ApplicationController
   skip_before_action :verify_authenticity_token
 
   def index
-    @day = DateTime.now
+    @day = params[:date].present? ? params[:date][0..9].to_datetime : DateTime.now 
     @reserves = Reserve.all
     if @day.wday == 0
       @monday = @day + 1

@@ -27,6 +27,11 @@
 <% end %>
 </table>
 
+<div class="d-flex justify-content-center">
+  <%= link_to user_root_path(date: "#{@monday - 7.day}") do %><i class="fa-solid fa-backward p-1"></i><% end %>
+  <%= link_to user_root_path(date: "#{@monday + 7.day}") do %><i class="fa-solid fa-forward p-1"></i><% end %>
+</div>
+
 <script type="text/javascript">
   function submit(date) {
     let data = date;
