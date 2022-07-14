@@ -80,7 +80,7 @@ test:
 # for a full overview on how database connection configuration can be specified.
 #
 production:
-  <<: *default
+  adapter: postgresql
   database: esl_teste_production
-  username: deploy
-  password: <%= ENV["ESL_TESTE_DATABASE_PASSWORD"] %>
+  pool: 5
+  timeout: 5000
