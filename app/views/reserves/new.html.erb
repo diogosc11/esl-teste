@@ -23,6 +23,7 @@
     body: `date=${date}&description=${description[0].value}`
     })
     .then(response => response.json())
+    location.reload(true);
     window.location.href = baseUrl;
   }
 </script>
